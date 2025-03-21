@@ -17,6 +17,8 @@ import { SkillsService } from './services/skills.service';
 import { SkillsController } from './controllers/skills.controller';
 import { SkillsRepository } from './repositories/skills.repository';
 import { HelpersModule } from 'src/common/helpers/helpers.module';
+import { WasabiService } from 'src/common/helpers/services/wasabi.service';
+import { SkillEntity } from './entities/skills/skill.entity';
 
 @Module({
     imports: [
@@ -28,8 +30,8 @@ import { HelpersModule } from 'src/common/helpers/helpers.module';
             DegreesEntity,
             ResumeEntity,
             QualificationsEntity,
+            SkillEntity
         ]),
-        HelpersModule,
 
     ],
     controllers: [
@@ -38,6 +40,7 @@ import { HelpersModule } from 'src/common/helpers/helpers.module';
         SkillsController
     ],
     providers: [
+        WasabiService,
         ResumesRepository,
         ResumesService,
         QualificationsRepository,
