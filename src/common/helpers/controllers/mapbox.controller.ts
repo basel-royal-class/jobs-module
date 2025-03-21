@@ -1,9 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { MapboxServiceHelper } from '../mapbox.service.helper';
+import { MapboxService } from '../services/mapbox.service';
 
 @Controller('mapbox')
 export class MapboxController {
-    constructor(private readonly mapboxService: MapboxServiceHelper) { }
+    constructor(private readonly mapboxService: MapboxService) { }
 
     @Get('geocode')
     async getGeocode(@Query('query') query: string) {

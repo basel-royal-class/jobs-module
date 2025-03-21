@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { WasabiServiceHelper } from '../../../common/helpers/wasabi.service.helper';
+import { WasabiService } from '../../../common/helpers/services/wasabi.service';
 import { ResumesRepository } from '../repositories/resumes.repository';
 import { CreateResumeDto } from '../dtos/create.resume.dto';
 import { ResumeEntity } from '../entities/resume.entity';
@@ -8,7 +8,7 @@ import { ResumeEntity } from '../entities/resume.entity';
 export class ResumesService {
     constructor(
         private readonly resumesRepository: ResumesRepository,
-        private readonly cloudStorageService: WasabiServiceHelper, // Assume this service handles file upload
+        private readonly cloudStorageService: WasabiService, // Assume this service handles file upload
     ) { }
 
     async create(file: Express.Multer.File, createResumeDto: CreateResumeDto, userId: number): Promise<ResumeEntity> {

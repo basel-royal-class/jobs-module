@@ -9,13 +9,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QualificationsService } from './services/qualifications.service';
 import { QualificationsRepository } from './repositories/qualifications.repository';
 import { QualificationsController } from './controllers/qualifications.controller';
-import { WasabiModule } from 'src/common/helpers/modules/wasabi.module';
 import { ResumesController } from './controllers/resumes.controller';
 import { ResumesService } from './services/resumes.service';
 import { ResumesRepository } from './repositories/resumes.repository';
 import { ResumeEntity } from './entities/resume.entity';
 import { SkillsService } from './services/skills.service';
 import { SkillsController } from './controllers/skills.controller';
+import { SkillsRepository } from './repositories/skills.repository';
+import { HelpersModule } from 'src/common/helpers/helpers.module';
 
 @Module({
     imports: [
@@ -28,7 +29,7 @@ import { SkillsController } from './controllers/skills.controller';
             ResumeEntity,
             QualificationsEntity,
         ]),
-        WasabiModule,
+        HelpersModule,
 
     ],
     controllers: [
@@ -41,7 +42,8 @@ import { SkillsController } from './controllers/skills.controller';
         ResumesService,
         QualificationsRepository,
         QualificationsService,
-        SkillsService
+        SkillsService,
+        SkillsRepository
     ]
 })
 export class JobProfileModule { }

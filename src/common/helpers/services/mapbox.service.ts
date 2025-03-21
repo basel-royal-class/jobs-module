@@ -3,7 +3,7 @@ import * as MapboxSdk from '@mapbox/mapbox-sdk';
 import axios from 'axios';
 
 @Injectable()
-export class MapboxServiceHelper {
+export class MapboxService {
     private mapboxClient;
 
     constructor() {

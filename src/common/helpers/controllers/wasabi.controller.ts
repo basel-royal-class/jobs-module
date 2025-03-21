@@ -1,10 +1,10 @@
 import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { WasabiServiceHelper } from '../wasabi.service.helper';
+import { WasabiService } from '../services/wasabi.service';
 
 @Controller('upload')
 export class WasabiController {
-    constructor(private readonly wasabiService: WasabiServiceHelper) { }
+    constructor(private readonly wasabiService: WasabiService) { }
 
     @Post('wasabi')
     @UseInterceptors(FileInterceptor('file'))
