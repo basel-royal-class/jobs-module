@@ -8,9 +8,12 @@ import { CountryEntity } from '../../../core/entities/countries.entity';
 import { QualificationsController } from '../controllers/qualifications.controller';
 import { QualificationsService } from '../services/qualifications.service';
 import { QualificationsRepository } from '../repositories/qualifications.repository';
+import { Users } from 'src/core/entities/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([QualificationsEntity, DegreesEntity, SchoolsEntity, CityEntity, CountryEntity])],
+  imports: [
+    TypeOrmModule.forFeature([QualificationsEntity, DegreesEntity, SchoolsEntity, CityEntity, CountryEntity, Users]
+  )],
   controllers: [QualificationsController],
   providers: [QualificationsRepository, QualificationsService],
 })

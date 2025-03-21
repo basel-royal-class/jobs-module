@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ResumeEntity } from 'src/jobs/job_profile/entities/resume.entity';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                 username: configService.get<string>('DB_USER'),
                 password: configService.get<string>('DB_PASSWORD'),
                 database: configService.get<string>('DB_NAME'),
+                entities: [ResumeEntity],
                 autoLoadEntities: true, // Automatically load entities
                 synchronize: configService.get<boolean>('DB_SYNCHRONIZE') === true,
                 ssl: configService.get<boolean>('DB_SSL') ? { rejectUnauthorized: false } : false, // Enable SSL if needed

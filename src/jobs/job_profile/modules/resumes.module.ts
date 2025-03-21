@@ -5,9 +5,10 @@ import { ResumesController } from '../controllers/resumes.controller';
 import { ResumesRepository } from '../repositories/resumes.repository';
 import { ResumesService } from '../services/resumes.service';
 import { ResumeEntity } from '../entities/resume.entity';
+import { Users } from 'src/core/entities/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ResumeEntity]), WasabiModule],
+  imports: [TypeOrmModule.forFeature([ResumeEntity, Users]), WasabiModule],
   controllers: [ResumesController],
   providers: [ResumesRepository, ResumesService],
 })
