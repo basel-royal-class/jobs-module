@@ -10,20 +10,20 @@ export class SchoolSkillEntity {
   @Column()
   schoolId: number;
 
-  @ManyToOne(() => SchoolsEntity)
-  @JoinColumn({ name: 'school_id' })
-  school: SchoolsEntity;
-
   @Column()
   skillId: number;
-
-  @ManyToOne(() => SkillEntity)
-  @JoinColumn({ name: 'skill_id' })
-  skill: SkillEntity;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToOne(() => SchoolsEntity)
+  @JoinColumn({ name: 'school_id' })
+  school: SchoolsEntity;
+
+  @ManyToOne(() => SkillEntity)
+  @JoinColumn({ name: 'skill_id' })
+  skill: SkillEntity;
 }

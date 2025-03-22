@@ -9,7 +9,7 @@ export class SkillsController {
 
   @Post()
   create(@Body() createSkillDto: CreateSkillDto) {
-    return this.skillsService.create(createSkillDto);
+    return this.skillsService.create(createSkillDto, 1);
   }
 
   @Get()

@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSkillDto } from '../dtos/create.skill.dto';
 import { UpdateSkillDto } from '../dtos/update-skill.dto';
+import { SkillsRepository } from '../repositories/skills.repository';
 
 @Injectable()
 export class SkillsService {
-  async create(createSkillDto: CreateSkillDto) {
-    return 'This action adds a new skill';
+  constructor(
+    private readonly repository: SkillsRepository,
+  ) { }
+
+
+  async create(createSkillDto: CreateSkillDto, userId: number) {
+    return {
+      success: true,
+      data: await this.repository.create(createSkillDto, userId)
+    };
   }
 
   async getUserSkills() {

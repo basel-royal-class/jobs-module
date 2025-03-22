@@ -1,4 +1,4 @@
-import { IsArray, IsInt, IsNotEmpty } from "class-validator";
+import { IsArray, IsInt, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateSkillDto {
     @IsNotEmpty()
@@ -7,9 +7,11 @@ export class CreateSkillDto {
 
     @IsArray()
     @IsInt({ each: true })
+    @IsOptional()
     companies: number[];
 
     @IsArray()
     @IsInt({ each: true })
+    @IsOptional()
     schools: number[];
 }
