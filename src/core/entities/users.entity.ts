@@ -1,59 +1,59 @@
+import { Experience } from 'src/jobs/job_profile/entities/experince.entity';
+import { QualificationsEntity } from 'src/jobs/job_profile/entities/qualification.entity';
 import { ResumeEntity } from 'src/jobs/job_profile/entities/resume.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class Users {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ length: 50 })
-    name: string;
+  @Column({ length: 100, nullable: false })
+  first_name: string;
 
-    @Column({ length: 50, unique: true })
-    email: string;
+  @Column({ length: 100, nullable: false })
+  last_name: string;
 
-    @Column({ type: 'boolean', default: false })
-    email_verified_at: boolean;
+  @Column({ length: 255, nullable: false, unique: true })
+  email: string;
 
-    @Column()
-    password: string;
+  @Column({ nullable: true })
+  headline: string;
 
-    @Column({ type: 'boolean', default: false })
-    remember_token: boolean;
+  @Column({ nullable: true })
+  summary: string;
 
-    @Column({ type: 'date', nullable: true })
-    last_login_at: Date;
 
-    @Column({ length: 250, nullable: true })
-    image: string;
+  @Column({ nullable: true })
+  gender: string;
 
-    @Column({ length: 50, nullable: true })
-    whatsapp_number: string;
+  @Column({ nullable: true, type: 'date' })
+  dob: Date;
 
-    @Column({ length: 50, nullable: true })
-    phone_number: string;
+  @Column({ nullable: true })
+  phone_number: string;
 
-    @OneToMany(() => ResumeEntity, (resume) => resume.user)
-    resumes: ResumeEntity[];
 
-    // @Column({ length: 25 })
-    // role: string;
+  @Column({ nullable : true })
+  join_type: string;
 
-    // @Column({ length: 25 })
-    // user_module: string;
 
-    // @Column({ length: 50 })
-    // user_country_code: string;
 
-    // @Column({ length: 10 })
-    // gender: string;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updated_at: Date;
 
-    //   @ManyToOne(() => Nationality, (nationality) => nationality.users, { nullable: true })
-    //   nationality: Nationality;
+  @OneToMany(() => Experience, (experience) => experience.user)
+  experiences: Experience[];
 
-    //   @ManyToOne(() => Company, (company) => company.users, { nullable: false })
-    //   company: Company;
 
-    @Column({ type: 'date', nullable: true })
-    dob: Date;
+  @Column({ nullable: true, type: 'decimal', precision: 10, scale: 2 })
+  desired_salary: number;
+
 }

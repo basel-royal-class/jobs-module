@@ -18,7 +18,6 @@ export class ResumeEntity {
     @Column({ type: 'int' })
     user_id: number;
 
-    @ManyToOne(() => Users, (user) => user.resumes, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'user_id' })
-    user: Users;
+    // @ManyToOne(() => Users, (user) => user.resumes, { onDelete: 'CASCADE' })
+    // user: Users;
 }

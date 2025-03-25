@@ -1,30 +1,30 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
-import { SkillEntity } from './skill.entity';
-import { Users } from '../../../../core/entities/users.entity';
+// import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
+// import { SkillEntity } from './skill.entity';
+// import { Users } from '../../../../core/entities/users.entity';
 
-@Entity('user_skills')
-export class UsersSkillsEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+// @Entity('user_skills')
+// export class UsersSkillsEntity {
+//     @PrimaryGeneratedColumn()
+//     id: number;
 
-    @Column()
-    userId: number;
+//     @Column()
+//     userId: number;
 
-    @Column()
-    skillId: number;
+//     @Column()
+//     skillId: number;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+//     @CreateDateColumn({ name: 'created_at' })
+//     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
+//     @UpdateDateColumn({ name: 'updated_at' })
+//     updatedAt: Date;
 
-    @ManyToOne(() => Users)
-    @JoinColumn({ name: 'user_id' })
-    user: Users;
+//     @ManyToOne(() => Users)
+//     @JoinColumn({ name: 'user_id' })
+//     user: Users;
 
-    @ManyToOne(() => SkillEntity)
-    @JoinColumn({ name: 'skill_id' })
-    skill: SkillEntity;
+//     @ManyToOne(() => SkillEntity)
+//     @JoinColumn({ name: 'skill_id' })
+//     skill: SkillEntity;
 
-}
+// }

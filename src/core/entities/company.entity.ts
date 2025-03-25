@@ -1,11 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
-import { CityEntity } from './cities.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity('companies')
-export class CompanyEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class CompaniesEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }

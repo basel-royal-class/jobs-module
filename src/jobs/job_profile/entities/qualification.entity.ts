@@ -35,23 +35,18 @@ export class QualificationsEntity {
     city_id: number;
 
     @ManyToOne(() => CountryEntity)
-    @JoinColumn({ name: 'country_id' })
     country: CountryEntity;
 
     @ManyToOne(() => CityEntity)
-    @JoinColumn({ name: 'city_id' })
     city: CityEntity;
 
     @ManyToOne(() => DegreesEntity)
-    @JoinColumn({ name: 'degree_id' })
     degree: DegreesEntity;
 
     @ManyToOne(() => SchoolsEntity)
-    @JoinColumn({ name: 'school_id' })
     school: SchoolsEntity;
 
     @ManyToOne(() => Users)
-    @JoinColumn({ name: 'user_id' })
     user: Users;
 
     @CreateDateColumn({ name: 'created_at' })
