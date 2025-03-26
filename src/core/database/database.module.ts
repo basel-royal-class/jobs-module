@@ -26,7 +26,6 @@ import { CompaniesEntity } from '../entities/company.entity';
                 database: configService.get<string>('DB_NAME'),
                 autoLoadEntities: true, 
                 synchronize: process.env.NODE_ENV !== 'production',
-
                 entities : [
                     QualificationsEntity,
                     ResumeEntity ,
@@ -35,7 +34,6 @@ import { CompaniesEntity } from '../entities/company.entity';
                     CompaniesEntity ,
                 ]
             }),
-           
         }),
     ],
 })
