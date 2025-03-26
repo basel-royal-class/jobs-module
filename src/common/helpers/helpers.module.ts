@@ -46,6 +46,9 @@ import { UsersRepository } from './repositories/user.repository';
 import { CountriesRepository } from './repositories/country.repository';
 import { CitiesRepository } from './repositories/city.repository';
 import { Nationality } from 'src/core/entities/nationality.entity';
+import { NationalityController } from './controllers/nationality.controller';
+import { NationalityService } from './services/nationality.service';
+import { NationalityRepository } from './repositories/nationlity.repository';
 
 @Module({
   imports: [
@@ -60,7 +63,7 @@ import { Nationality } from 'src/core/entities/nationality.entity';
       SkillsEntity,
       Experience,
       Users,
-      Nationality
+      Nationality,
     ]),
   ],
   controllers: [
@@ -74,6 +77,7 @@ import { Nationality } from 'src/core/entities/nationality.entity';
     IndustriesController,
     JobCategoryController,
     UsersController,
+    NationalityController,
   ],
   providers: [
     // Services
@@ -87,6 +91,7 @@ import { Nationality } from 'src/core/entities/nationality.entity';
     IndustriesService,
     JobCategoryService,
     UsersService,
+    NationalityService,
 
     // Repositories
     SkillsRepository,
@@ -96,14 +101,16 @@ import { Nationality } from 'src/core/entities/nationality.entity';
     UsersRepository,
     CountriesRepository,
     CitiesRepository,
+    NationalityRepository,
   ],
   exports: [
     UsersRepository,
     CompaniesRepository,
     CountriesRepository,
     CitiesRepository,
-    IndustriesRepository, 
+    IndustriesRepository,
     JobCategoryRepository,
+    NationalityRepository,
   ],
 })
 export class HelpersModule {}

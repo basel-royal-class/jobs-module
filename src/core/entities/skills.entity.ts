@@ -1,5 +1,12 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { UserSkill } from 'src/jobs/job_profile/entities/skills/user.skill.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('skills')
 export class SkillsEntity {
@@ -7,7 +14,10 @@ export class SkillsEntity {
   id: number;
 
   @Column({ length: 255, nullable: false })
-  value: string; 
+  value: string;
+
+  @OneToMany(() => UserSkill, (userSkills) => userSkills.skils)
+  skills: UserSkill[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

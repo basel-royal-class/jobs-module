@@ -21,5 +21,4 @@ export class NationalityController {
     return await this.nationalityService.findOne(+id);
   }
 
-
 }

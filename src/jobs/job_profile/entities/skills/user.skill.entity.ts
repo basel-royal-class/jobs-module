@@ -1,30 +1,37 @@
-// import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
-// import { SkillEntity } from './skill.entity';
-// import { Users } from '../../../../core/entities/users.entity';
+import { CompaniesEntity } from 'src/core/entities/company.entity';
+import { SchoolsEntity } from 'src/core/entities/schools.entity';
+import { SkillsEntity } from 'src/core/entities/skills.entity';
+import {
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { UserSkillCompanies } from './user.company.entity';
+import { UserSkillSchools } from './user.schools.entity';
 
-// @Entity('user_skills')
-// export class UsersSkillsEntity {
-//     @PrimaryGeneratedColumn()
-//     id: number;
+@Entity('user_skills')
+export class UserSkill {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-//     @Column()
-//     userId: number;
+  @ManyToOne(() => SkillsEntity, { eager: true })
+  skils: SkillsEntity;
 
-//     @Column()
-//     skillId: number;
+  @OneToMany(() => UserSkillCompanies, (userSkillsCompanies) => userSkillsCompanies.userSkills)
+  skillsCompanies: UserSkillCompanies[];
 
-//     @CreateDateColumn({ name: 'created_at' })
-//     createdAt: Date;
+  @OneToMany(() => UserSkillSchools, (userSkillsSchool) => userSkillsSchool.userSkills)
+  skillsSkills: UserSkillSchools[];
 
-//     @UpdateDateColumn({ name: 'updated_at' })
-//     updatedAt: Date;
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
 
-//     @ManyToOne(() => Users)
-//     @JoinColumn({ name: 'user_id' })
-//     user: Users;
-
-//     @ManyToOne(() => SkillEntity)
-//     @JoinColumn({ name: 'skill_id' })
-//     skill: SkillEntity;
-
-// }
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updated_at: Date;
+}

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { NationalityRepository } from '../repositories/nationlity.repository';
 import { CreateNationalityDto, NationalityResponseDto } from '../../../core/dtos/nationality.dto';
+import { Nationality } from 'src/core/entities/nationality.entity';
 
 @Injectable()
 export class NationalityService {
@@ -40,5 +41,9 @@ export class NationalityService {
         name: nationality.name,
       },
     };
+  }
+
+  async findNationalityBySearchTerm(searchTerm: string): Promise<Nationality[]> {
+    return this.nationalityRepository.findNationalitysBySearchTerm(searchTerm);
   }
 }

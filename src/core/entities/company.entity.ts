@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.company.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 
 @Entity('companies')
 export class CompaniesEntity {
@@ -7,6 +8,9 @@ export class CompaniesEntity {
 
   @Column()
   name: string;
+
+  @OneToMany(() => UserSkillCompanies, (userSkillsCompanies) => userSkillsCompanies.companies)
+  skills: UserSkillCompanies[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

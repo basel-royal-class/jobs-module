@@ -17,13 +17,6 @@ import { Experience } from './entities/experince.entity';
 import { ExperienceRepository } from './repositories/experince.repository';
 import { UsersRepository } from 'src/common/helpers/repositories/user.repository';
 
-// Repositories from helpers module
-import { IndustriesRepository } from 'src/common/helpers/repositories/industry.repository';
-import { CountriesRepository } from 'src/common/helpers/repositories/country.repository';
-import { CitiesRepository } from 'src/common/helpers/repositories/city.repository';
-import { JobCategoryRepository } from 'src/common/helpers/repositories/job-category.repository';
-import { CompaniesRepository } from 'src/common/helpers/repositories/companies.repository';
-
 // Controllers
 import { VisaTypeController } from './controllers/visa.controller';
 import { ReferenceController } from './controllers/references.controller';
@@ -40,12 +33,6 @@ import { PortfolioService } from './services/portfolios.service';
 import { ExperienceService } from './services/experince.service';
 import { UsersService } from 'src/common/helpers/services/user.service';
 
-// Services from helpers module
-import { IndustriesService } from 'src/common/helpers/services/industry.service';
-import { CountriesService } from 'src/common/helpers/services/country.service';
-import { CitiesService } from 'src/common/helpers/services/cities.service';
-import { JobCategoryService } from 'src/common/helpers/services/job-category.service';
-import { CompaniesService } from 'src/common/helpers/services/companies.service';
 
 // Import HelpersModule to ensure all dependencies are available
 import { HelpersModule } from 'src/common/helpers/helpers.module';
@@ -53,6 +40,14 @@ import { ReferenceRepository } from './repositories/references.repository';
 import { CertificationRepository } from './repositories/certifications.repository';
 import { PortfolioRepository } from './repositories/portfolios.repository';
 import { VisaTypeRepository } from './repositories/visa.repository';
+import { UserSkill } from './entities/skills/user.skill.entity';
+import { UserSkillController } from './controllers/userSkills.controller';
+import { SkillsEntity } from 'src/core/entities/skills.entity';
+import { CompaniesEntity } from 'src/core/entities/company.entity';
+import { UserSkillCompanies } from './entities/skills/user.company.entity';
+import { UserSkillSchools } from './entities/skills/user.schools.entity';
+import { UserSkillsRepository } from './repositories/userSkills.repository';
+import { UserSkillsService } from './services/userSkills.service';
 
 @Module({
   imports: [
@@ -67,6 +62,12 @@ import { VisaTypeRepository } from './repositories/visa.repository';
       CertificationEntity,
       PortfolioEntity,
       Experience,
+      UserSkill ,
+      SkillsEntity, 
+      CompaniesEntity, 
+      UserSkillCompanies ,
+      UserSkillSchools
+
     ]),
     HelpersModule, 
   ],
@@ -76,6 +77,7 @@ import { VisaTypeRepository } from './repositories/visa.repository';
     CertificationController,
     PortfolioController,
     ExperienceController,
+    UserSkillController
   ],
   providers: [
     // Repositories
@@ -85,6 +87,8 @@ import { VisaTypeRepository } from './repositories/visa.repository';
     CertificationRepository ,
     PortfolioRepository ,
     VisaTypeRepository ,
+    UserSkillsRepository ,
+    
     
 
     // Services
@@ -93,9 +97,10 @@ import { VisaTypeRepository } from './repositories/visa.repository';
     PortfolioService,
     ExperienceService,
     UsersService,
-    VisaTypeService
+    VisaTypeService ,
+    UserSkillsService
 
   ],
-  exports: [ExperienceService, ExperienceRepository],
+  exports: [ExperienceService, ExperienceRepository ],
 })
 export class JobProfileModule {}

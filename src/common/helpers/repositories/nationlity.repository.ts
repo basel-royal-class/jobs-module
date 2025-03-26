@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, ILike, Repository } from 'typeorm';
 import { Nationality } from '../../../core/entities/nationality.entity';
 
 @Injectable()
@@ -29,5 +29,15 @@ export class NationalityRepository extends Repository<Nationality> {
     return await this.find();
   }
 
-// 
+  async findNationalitysBySearchTerm(searchTerm: string): Promise<Nationality[]> {
+    try {
+      return await this.find({
+        where: {
+          name: ILike(`%${searchTerm}%`),
+        },
+      });
+    } catch (error) {
+      throw new Error(`Error searching skills with term "${searchTerm}": ${error.message}`);
+    }
+  }
 }
