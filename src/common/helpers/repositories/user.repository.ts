@@ -1,36 +1,31 @@
+import {  DataSource, Repository } from 'typeorm';
+import { User } from '../../../core/entities/user.entity';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Users } from 'src/core/entities/users.entity';
-import { CreateUserDto } from '../../../core/dtos/user.dto';
 
 @Injectable()
-export class UsersRepository {
-  constructor(
-    @InjectRepository(Users)
-    private usersRepository: Repository<Users>,
-  ) {}
+export class UserRepository extends Repository<User> {
 
-  async findAll(): Promise<Users[]> {
-    return this.usersRepository.find();
+  constructor(private dataSource: DataSource) {
+    super(User, dataSource.createEntityManager());
   }
 
-  async findById(id: number): Promise<Users | null> {
-    return this.usersRepository.findOne({
-      where: { id },
-      relations: [
-        'experiences', 
-        'experiences.industry', 
-        'experiences.country', 
-        'experiences.city', 
-        'experiences.job_category', 
-        'experiences.company'
-      ],
+
+  async createUser(userData: Partial<User>): Promise<User> {
+    const user = this.create(userData);
+    return this.save(user);
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.findOne({
+      where: { email },
+      relations: ['jobProfile'],
     });
   }
 
-  async create(createUserDto: CreateUserDto): Promise<Users> {
-    const user = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+  async findById(id: number): Promise<User | null> {
+    return this.findOne({
+      where: { id },
+      relations: ['jobProfile'],
+    });
   }
 }

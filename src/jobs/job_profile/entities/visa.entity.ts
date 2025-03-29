@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity()
+@Entity('visa_type')
 export class VisaTypeEntity {
   @PrimaryGeneratedColumn()
   id: number;

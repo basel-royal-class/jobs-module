@@ -4,7 +4,7 @@ import { CountryEntity } from '../../../core/entities/countries.entity';
 import { CityEntity } from '../../../core/entities/cities.entity';
 import { JobCategoryEntity } from '../../../core/entities/job-category.entity';
 import { CompaniesEntity } from '../../../core/entities/company.entity';
-import { Users } from 'src/core/entities/users.entity';
+import { UserJobProfile } from 'src/core/entities/user-job-profile.entity';
 
 @Entity()
 export class Experience {
@@ -47,6 +47,6 @@ export class Experience {
   @ManyToOne(() => CompaniesEntity)
   company: CompaniesEntity;
 
-  @ManyToOne(() => Users)
-  user: Users;
+  @ManyToOne(() => UserJobProfile)
+  user: UserJobProfile;
 }

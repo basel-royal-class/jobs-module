@@ -1,24 +1,24 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { CreateUserDto } from '../../../core/dtos/user.dto';
-import { UsersService } from '../services/user.service';
-import { Users } from 'src/core/entities/users.entity';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { UserService } from '../services/user.service';
+import { CreateUserDto } from '../../../core/dtos/users.dto';
+import { User } from '../../../core/entities/user.entity';
 
-@Controller('user')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@Controller('users')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-  @Get()
-  async findAll(): Promise<Users[]> {
-    return this.usersService.findAll();
+  @Post()
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.createUser(createUserDto);
   }
 
   @Get(':id')
-  async findById(@Param('id', ParseIntPipe) id: number): Promise<Users> {
-    return this.usersService.findById(id);
+  async getUserById(@Param('id') id: number): Promise<User> {
+    return this.userService.getUserById(id);
   }
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<Users> {
-    return this.usersService.create(createUserDto);
+  @Get()
+  async getUserByEmail(@Query('email') email: string): Promise<User> {
+    return this.userService.getUserByEmail(email);
   }
 }

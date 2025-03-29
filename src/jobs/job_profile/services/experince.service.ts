@@ -14,7 +14,7 @@ import { CountriesRepository } from 'src/common/helpers/repositories/country.rep
 import { CitiesRepository } from 'src/common/helpers/repositories/city.repository';
 import { JobCategoryRepository } from 'src/common/helpers/repositories/job-category.repository';
 import { CompaniesRepository } from 'src/common/helpers/repositories/companies.repository';
-import { UsersRepository } from 'src/common/helpers/repositories/user.repository';
+import { UserJobRepository } from 'src/common/helpers/repositories/user-job.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class ExperienceService {
     private readonly citiesRepository: CitiesRepository,
     private readonly jobCategoryRepository: JobCategoryRepository,
     private readonly companiesRepository: CompaniesRepository,
-    private readonly usersRepository: UsersRepository,
+    private readonly usersRepository: UserJobRepository,
   ) {}
 
   async createExperience(

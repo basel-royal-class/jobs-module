@@ -19,12 +19,12 @@ import { CompaniesEntity } from '../entities/company.entity';
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
-                // host: configService.get<string>('DB_HOST'),
-                // port: configService.get<number>('DB_PORT'),
-                // username: configService.get<string>('DB_USER'),
-                // password: configService.get<string>('DB_PASSWORD'),
-                // database: configService.get<string>('DB_NAME'),
-                url: 'postgresql://fynd_user:uQsduIiR0RQxaX2TpX9tuP9B2fTDErpO@dpg-cvei0n1c1ekc73efa6qg-a/fynd',
+                host: configService.get<string>('DB_HOST'),
+                port: configService.get<number>('DB_PORT'),
+                username: configService.get<string>('DB_USER'),
+                password: configService.get<string>('DB_PASSWORD'),
+                database: configService.get<string>('DB_NAME'),
+                // url: 'postgresql://fynd_user:uQsduIiR0RQxaX2TpX9tuP9B2fTDErpO@dpg-cvei0n1c1ekc73efa6qg-a/fynd',
                 autoLoadEntities: true,
                 synchronize: process.env.NODE_ENV !== 'production',
                 entities: [

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Entities
-import { Users } from 'src/core/entities/users.entity';
+import { UserJobProfile } from 'src/core/entities/user-job-profile.entity';
 import { SchoolsEntity } from 'src/core/entities/schools.entity';
 import { DegreesEntity } from 'src/core/entities/degrees.entity';
 import { ResumeEntity } from './entities/resume.entity';
@@ -15,7 +15,7 @@ import { Experience } from './entities/experince.entity';
 
 // Repositories
 import { ExperienceRepository } from './repositories/experince.repository';
-import { UsersRepository } from 'src/common/helpers/repositories/user.repository';
+import { UserJobRepository } from 'src/common/helpers/repositories/user-job.repository';
 
 // Controllers
 import { VisaTypeController } from './controllers/visa.controller';
@@ -31,7 +31,7 @@ import { ReferenceService } from './services/references.service';
 import { CertificationService } from './services/certification.service';
 import { PortfolioService } from './services/portfolios.service';
 import { ExperienceService } from './services/experince.service';
-import { UsersService } from 'src/common/helpers/services/user.service';
+import { JobProfileService } from 'src/common/helpers/services/user-job.service';
 
 
 // Import HelpersModule to ensure all dependencies are available
@@ -52,7 +52,7 @@ import { UserSkillsService } from './services/userSkills.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Users,
+      UserJobProfile,
       SchoolsEntity,
       DegreesEntity,
       ResumeEntity,
@@ -82,7 +82,7 @@ import { UserSkillsService } from './services/userSkills.service';
   providers: [
     // Repositories
     ExperienceRepository,
-    UsersRepository,
+    UserJobRepository,
     ReferenceRepository,
     CertificationRepository ,
     PortfolioRepository ,
@@ -96,11 +96,11 @@ import { UserSkillsService } from './services/userSkills.service';
     CertificationService,
     PortfolioService,
     ExperienceService,
-    UsersService,
+    JobProfileService,
     VisaTypeService ,
     UserSkillsService
 
   ],
-  exports: [ExperienceService, ExperienceRepository ],
+  exports: [ExperienceService, ExperienceRepository , VisaTypeRepository , VisaTypeService ],
 })
 export class JobProfileModule {}

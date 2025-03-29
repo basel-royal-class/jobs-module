@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  CreateDateColumn,
+  OneToOne,
+} from 'typeorm';
 import { CityEntity } from './cities.entity';
+import { UserJobProfile } from './user-job-profile.entity';
 
 @Entity('countries')
 export class CountryEntity {
@@ -18,6 +26,9 @@ export class CountryEntity {
   @CreateDateColumn({ name: 'created_at', nullable: true })
   createdAt: Date;
 
-  @OneToMany(() => CityEntity, city => city.country)
+  @OneToMany(() => CityEntity, (city) => city.country)
   cities: CityEntity[];
+
+  @OneToOne(() => UserJobProfile, (user) => user.country)
+  user: UserJobProfile;
 }

@@ -2,7 +2,7 @@ import { CityEntity } from 'src/core/entities/cities.entity';
 import { CountryEntity } from 'src/core/entities/countries.entity';
 import { DegreesEntity } from 'src/core/entities/degrees.entity';
 import { SchoolsEntity } from 'src/core/entities/schools.entity';
-import { Users } from 'src/core/entities/users.entity';
+import { UserJobProfile } from 'src/core/entities/user-job-profile.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('qualifications')
@@ -46,8 +46,8 @@ export class QualificationsEntity {
     @ManyToOne(() => SchoolsEntity)
     school: SchoolsEntity;
 
-    @ManyToOne(() => Users)
-    user: Users;
+    @ManyToOne(() => UserJobProfile)
+    userJob: UserJobProfile;
 
     @CreateDateColumn({ name: 'created_at' })
     created_at: string;

@@ -1,19 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
-import { Language } from '../../../core/entities/language.entity';
+import { DataSource, ILike, Repository } from 'typeorm';
+import { LanguageEntity } from '../../../core/entities/language.entity';
 
 @Injectable()
-export class LanguageRepository extends Repository<Language> {
+export class LanguageRepository extends Repository<LanguageEntity> {
   constructor(private dataSource: DataSource) {
-    super(Language, dataSource.createEntityManager());
+    super(LanguageEntity, dataSource.createEntityManager());
   }
 
-  async createLanguage(value: string): Promise<Language> {
-    const language = this.create({ value });
-    return await this.save(language);
-  }
-
-  async findLanguageById(id: number): Promise<Language> {
+  async findLanguageById(id: number): Promise<LanguageEntity> {
     const language = await this.findOne({
       where: { id },
     });
@@ -25,7 +20,26 @@ export class LanguageRepository extends Repository<Language> {
     return language;
   }
 
-  async findAllLanguages(): Promise<Language[]> {
+  async findAllLanguages(): Promise<LanguageEntity[]> {
     return await this.find();
+  }
+
+  async findLanguagesBySearchTerm(searchTerm: string): Promise<LanguageEntity[]> {
+    try {
+      return await this.find({
+        where: {
+          value: ILike(`%${searchTerm}%`),
+        },
+      });
+    } catch (error) {
+      throw new Error(`Error searching companies with term "${searchTerm}": ${error.message}`);
+    }
+  }
+
+  async removeLanguages(languages: LanguageEntity[]): Promise<void> {
+    if (languages && languages.length > 0) {
+      const languageIds = languages.map(lang => lang.id);
+      await this.delete(languageIds);
+    }
   }
 }

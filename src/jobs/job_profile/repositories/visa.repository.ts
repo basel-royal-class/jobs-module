@@ -11,4 +11,10 @@ export class VisaTypeRepository extends Repository<VisaTypeEntity> {
   async findAllVisaTypes(): Promise<VisaTypeEntity[]> {
     return this.find();
   }
+
+  async findById(id: number): Promise<VisaTypeEntity | null> {
+    return this.findOne({
+      where: { id },
+    });
+  }
 }
