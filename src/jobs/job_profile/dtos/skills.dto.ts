@@ -5,6 +5,10 @@ export class CreateSkillDto {
     @IsInt()
     skill_id: number;
 
+    @IsNotEmpty()
+    @IsInt()
+    user_id: number;
+
     @IsArray()
     @IsInt({ each: true })
     @IsOptional()

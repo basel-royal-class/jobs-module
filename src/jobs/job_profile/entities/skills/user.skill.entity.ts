@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { UserSkillCompanies } from './user.company.entity';
 import { UserSkillSchools } from './user.schools.entity';
+import { UserJobProfile } from 'src/core/entities/user-job-profile.entity';
 
 @Entity('user_skills')
 export class UserSkill {
@@ -22,6 +23,11 @@ export class UserSkill {
 
   @ManyToOne(() => SkillsEntity, { eager: true })
   skils: SkillsEntity;
+
+  // Add this relationship
+  @ManyToOne(() => UserJobProfile, (userJobProfile) => userJobProfile.skills)
+  userJobProfile: UserJobProfile;
+
 
   @OneToMany(() => UserSkillCompanies, (userSkillsCompanies) => userSkillsCompanies.userSkills)
   skillsCompanies: UserSkillCompanies[];

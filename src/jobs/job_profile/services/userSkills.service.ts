@@ -6,6 +6,7 @@ export interface CreateUserSkillDto {
   skill_id: number;
   companies: number[];
   schools: number[];
+  user_id: number;
 }
 
 @Injectable()
@@ -22,12 +23,13 @@ export class UserSkillsService {
 
   async createUserSkill(createUserSkillDto: CreateUserSkillDto) {
     try {
-      const { skill_id, companies, schools } = createUserSkillDto;
+      const { skill_id, companies, schools, user_id } = createUserSkillDto;
 
       const result = await this.userSkillsRepository.createUserSkill(
         skill_id,
         companies || [],
         schools || [],
+        user_id
       );
 
       return {
@@ -77,9 +79,9 @@ export class UserSkillsService {
       throw new NotFoundException(`User skill with ID ${id} not found`);
     }
 
-    const { skill_id, companies, schools } = updateUserSkillDto;
+    const { skill_id, companies, schools, user_id } = updateUserSkillDto;
 
-    return this.userSkillsRepository.updateUserSkill(id, skill_id, companies, schools);
+    return this.userSkillsRepository.updateUserSkill(id, skill_id, companies, schools, user_id);
   }
 
   /**

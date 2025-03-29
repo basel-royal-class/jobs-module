@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   CreateDateColumn,
-  OneToOne,
 } from 'typeorm';
 import { CityEntity } from './cities.entity';
 import { UserJobProfile } from './user-job-profile.entity';
@@ -29,6 +28,6 @@ export class CountryEntity {
   @OneToMany(() => CityEntity, (city) => city.country)
   cities: CityEntity[];
 
-  @OneToOne(() => UserJobProfile, (user) => user.country)
-  user: UserJobProfile;
+  @OneToMany(() => UserJobProfile, (profile) => profile.country)
+  userProfiles: UserJobProfile[];
 }
