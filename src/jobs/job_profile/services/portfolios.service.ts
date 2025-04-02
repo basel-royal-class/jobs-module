@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { PortfolioRepository } from '../repositories/portfolios.repository';
 import { PortfolioEntity } from '../entities/portfolios.entity';
-import { CreatePortfolioDto } from '../dtos/portfolios.dto';
+import { CreatePortfolioDto, PortfolioResponseDto } from '../dtos/portfolios.dto';
 
 @Injectable()
 export class PortfolioService {
@@ -18,6 +18,16 @@ export class PortfolioService {
     }
   }
 
+  async findByUserId(userId: number): Promise<PortfolioEntity[]> {
+    this.logger.log(`Fetching portfolios for user ID: ${userId}`);
+    try {
+      return await this.portfolioRepository.findByUserJobProfileId(userId);
+    } catch (error) {
+      this.logger.error(`Error fetching portfolios for user ID ${userId}: ${error.message}`, error.stack);
+      throw error;
+    }
+  }
+
   async findById(id: number): Promise<PortfolioEntity> {
     this.logger.log(`Fetching portfolio with id: ${id}`);
     try {
@@ -27,28 +37,42 @@ export class PortfolioService {
       throw error;
     }
   }
-  async create(createPortfolioDto: CreatePortfolioDto): Promise<PortfolioEntity> {
+
+  async create(createPortfolioDto: CreatePortfolioDto): Promise<PortfolioResponseDto> {
     this.logger.log('Creating new portfolio');
     try {
-      const existingPortfolioWithName = await this.portfolioRepository.findOneBy({
-        user_id: createPortfolioDto.user_id,
-        name: createPortfolioDto.name,
-      });
+      // Check if portfolio with same name exists for this profile
+      const existingPortfolioWithName = await this.portfolioRepository.findOneByNameAndProfileId(
+        createPortfolioDto.name,
+        createPortfolioDto.user_id
+      );
+      
       if (existingPortfolioWithName) {
         throw new ConflictException(
-          `You already have a portfolio named "${createPortfolioDto.name}"`,
+          `You already have a portfolio named "${createPortfolioDto.name}"`
         );
       }
 
-      const existingPortfolioWithLink = await this.portfolioRepository.findOneBy({
-        link: createPortfolioDto.link,
-      });
+      // Check if portfolio with same link exists
+      const existingPortfolioWithLink = await this.portfolioRepository.findOneByLink(
+        createPortfolioDto.link
+      );
 
       if (existingPortfolioWithLink) {
         throw new ConflictException(`The link "${createPortfolioDto.link}" is already in use`);
       }
 
-      return await this.portfolioRepository.createPortfolio(createPortfolioDto);
+      const portfolio = await this.portfolioRepository.createPortfolio(createPortfolioDto);
+      
+      // Map entity to response DTO
+      return {
+        id: portfolio.id,
+        user_id: portfolio.userJobProfileId,
+        name: portfolio.name,
+        link: portfolio.link,
+        created_at: portfolio.created_at,
+        updated_at: portfolio.updated_at
+      };
     } catch (error) {
       this.logger.error(`Error creating portfolio: ${error.message}`, error.stack);
 
@@ -56,6 +80,7 @@ export class PortfolioService {
         throw error;
       }
 
+      // Handle database constraint violations
       if (error.code === '23505') {
         if (error.detail?.includes('name')) {
           throw new ConflictException('You already have a portfolio with this name');

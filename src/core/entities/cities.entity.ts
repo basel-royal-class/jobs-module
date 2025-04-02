@@ -18,6 +18,7 @@ export class CityEntity {
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt?: Date;
+  
 
   @Column()
   countryId?: number;

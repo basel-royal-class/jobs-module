@@ -101,6 +101,6 @@ import { UserSkillsService } from './services/userSkills.service';
     UserSkillsService
 
   ],
-  exports: [ExperienceService, ExperienceRepository , VisaTypeRepository , VisaTypeService ],
+  exports: [ExperienceService, ExperienceRepository , VisaTypeRepository , VisaTypeService  ],
 })
 export class JobProfileModule {}

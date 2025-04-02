@@ -61,6 +61,8 @@ import { UserJobRepository } from './repositories/user-job.repository';
 import { JobProfileService } from './services/user-job.service';
 import { VisaTypeRepository } from 'src/jobs/job_profile/repositories/visa.repository';
 import { JobProfileController } from './controllers/user-job-profile.controller';
+import { UserSkillSchools } from 'src/jobs/job_profile/entities/skills/user.schools.entity';
+import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.company.entity';
 
 @Module({
   imports: [
@@ -78,6 +80,8 @@ import { JobProfileController } from './controllers/user-job-profile.controller'
       Nationality,
       LanguageEntity,
       User,
+      UserSkillCompanies, 
+      UserSkillSchools,  
       
     ]),
   ],

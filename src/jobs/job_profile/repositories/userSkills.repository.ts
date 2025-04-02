@@ -12,6 +12,7 @@ import { UserSkillSchools } from '../entities/skills/user.schools.entity';
 import { SkillsEntity } from '../../../core/entities/skills.entity';
 import { CompaniesEntity } from '../../../core/entities/company.entity';
 import { SchoolsEntity } from '../../../core/entities/schools.entity';
+import { UserJobProfile } from '../../../core/entities/user-job-profile.entity';
 
 @Injectable()
 export class UserSkillsRepository {
@@ -30,9 +31,11 @@ export class UserSkillsRepository {
     private readonly companiesRepository: Repository<CompaniesEntity>,
     @InjectRepository(SchoolsEntity)
     private readonly schoolsRepository: Repository<SchoolsEntity>,
+    @InjectRepository(UserJobProfile)
+    private readonly userJobProfileRepository: Repository<UserJobProfile>,
   ) {}
 
-  async createUserSkill(skillId: number, companyIds: number[], schoolIds: number[]) {
+  async createUserSkill(skillId: number, companyIds: number[], schoolIds: number[], userId: number) {
     try {
       // Find the skill
       const skill = await this.skillsRepository.findOne({ where: { id: skillId } });
@@ -40,8 +43,15 @@ export class UserSkillsRepository {
         throw new Error('Skill not found');
       }
 
+      // Find the user job profile
+      const userJobProfile = await this.userJobProfileRepository.findOne({ where: { id: userId } });
+      if (!userJobProfile) {
+        throw new Error('User job profile not found');
+      }
+
       const userSkill = new UserSkill();
       userSkill.skils = skill;
+      userSkill.userJobProfile = userJobProfile; 
       const savedUserSkill = await this.userSkillRepository.save(userSkill);
 
       //companies
@@ -80,11 +90,12 @@ export class UserSkillsRepository {
       throw new InternalServerErrorException('Database error while creating user skill');
     }
   }
+  
   async findUserSkillById(id: number) {
     try {
       const userSkill = await this.userSkillRepository.findOne({
         where: { id },
-        relations: ['skils'],
+        relations: ['skils', 'userJobProfile'],
       });
 
       if (!userSkill) {
@@ -109,6 +120,7 @@ export class UserSkillsRepository {
           id: userSkill.skils.id,
           name: userSkill.skils.value,
         },
+        user_id: userSkill.userJobProfile ? userSkill.userJobProfile.id : null,
         companies: companies.map((company) => ({
           id: company.companies.id,
           name: company.companies.name || company.companies.name,
@@ -128,10 +140,11 @@ export class UserSkillsRepository {
       );
     }
   }
+  
   async findAllUserSkills() {
     try {
       const userSkills = await this.userSkillRepository.find({
-        relations: ['skils'],
+        relations: ['skils', 'userJobProfile'],
         order: { id: 'DESC' },
       });
 
@@ -154,6 +167,7 @@ export class UserSkillsRepository {
               id: userSkill.skils.id,
               name: userSkill.skils.value,
             },
+            user_id: userSkill.userJobProfile ? userSkill.userJobProfile.id : null,
             companies: companies.map((company) => ({
               id: company.companies.id,
               name: company.companies.name || company.companies.name,
@@ -172,6 +186,7 @@ export class UserSkillsRepository {
       throw new InternalServerErrorException('Database error while fetching user skills');
     }
   }
+  
   async deleteUserSkill(id: number): Promise<void> {
     try {
       const userSkill = await this.userSkillRepository.findOne({
@@ -198,11 +213,11 @@ export class UserSkillsRepository {
     }
   }
 
-  async updateUserSkill(id: number, skillId?: number, companyIds?: number[], schoolIds?: number[]) {
+  async updateUserSkill(id: number, skillId?: number, companyIds?: number[], schoolIds?: number[], userId?: number) {
     try {
       const userSkill = await this.userSkillRepository.findOne({
         where: { id },
-        relations: ['skils'],
+        relations: ['skils', 'userJobProfile' ],
       });
 
       if (!userSkill) {
@@ -215,8 +230,17 @@ export class UserSkillsRepository {
           throw new NotFoundException(`Skill with ID ${skillId} not found`);
         }
         userSkill.skils = skill;
-        await this.userSkillRepository.save(userSkill);
       }
+
+      if (userId) {
+        const userJobProfile = await this.userJobProfileRepository.findOne({ where: { id: userId } });
+        if (!userJobProfile) {
+          throw new NotFoundException(`User job profile with ID ${userId} not found`);
+        }
+        userSkill.userJobProfile = userJobProfile;
+      }
+      
+      await this.userSkillRepository.save(userSkill);
 
       if (companyIds !== undefined) {
         await this.userSkillCompaniesRepository.delete({ userSkills: { id } });

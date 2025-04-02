@@ -22,6 +22,20 @@ export class PortfolioRepository extends Repository<PortfolioEntity> {
     }
   }
 
+  async findByUserJobProfileId(userJobProfileId: number): Promise<PortfolioEntity[]> {
+    try {
+      return await this.find({
+        where: { userJobProfileId },
+        order: { created_at: 'DESC' },
+      });
+    } catch (error) {
+      this.logger.error(`Database error in findByUserJobProfileId: ${error.message}`, error.stack);
+      throw new InternalServerErrorException(
+        `Database error while fetching portfolios for profile with ID ${userJobProfileId}`
+      );
+    }
+  }
+
   async findById(id: number): Promise<PortfolioEntity> {
     try {
       const portfolio = await this.findOneBy({ id });
@@ -42,12 +56,39 @@ export class PortfolioRepository extends Repository<PortfolioEntity> {
     }
   }
 
+  async findOneByNameAndProfileId(name: string, userJobProfileId: number): Promise<PortfolioEntity | null> {
+    try {
+      return await this.findOne({
+        where: {
+          name,
+          userJobProfileId
+        }
+      });
+    } catch (error) {
+      this.logger.error(`Database error in findOneByNameAndProfileId: ${error.message}`, error.stack);
+      throw new InternalServerErrorException('Database error while checking portfolio existence');
+    }
+  }
+
+  async findOneByLink(link: string): Promise<PortfolioEntity | null> {
+    try {
+      return await this.findOne({
+        where: { link }
+      });
+    } catch (error) {
+      this.logger.error(`Database error in findOneByLink: ${error.message}`, error.stack);
+      throw new InternalServerErrorException('Database error while checking portfolio link');
+    }
+  }
+
   async createPortfolio(createDto: CreatePortfolioDto): Promise<PortfolioEntity> {
     try {
       const now = new Date();
 
       const portfolio = this.create({
-        ...createDto,
+        name: createDto.name,
+        link: createDto.link,
+        userJobProfileId: createDto.user_id,
         created_at: now,
         updated_at: now,
       });
