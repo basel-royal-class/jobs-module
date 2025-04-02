@@ -1,6 +1,7 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { extname } from 'path';
+import * as fs from 'fs';
 
 // Entities
 import { DegreesEntity } from '../../core/entities/degrees.entity';
@@ -63,6 +64,13 @@ import { VisaTypeRepository } from 'src/jobs/job_profile/repositories/visa.repos
 import { JobProfileController } from './controllers/user-job-profile.controller';
 import { UserSkillSchools } from 'src/jobs/job_profile/entities/skills/user.schools.entity';
 import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.company.entity';
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+
+const uploadDir = './uploads/profile-images';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 @Module({
   imports: [
@@ -80,10 +88,19 @@ import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.co
       Nationality,
       LanguageEntity,
       User,
-      UserSkillCompanies, 
-      UserSkillSchools,  
-      
+      UserSkillCompanies,
+      UserSkillSchools,
     ]),
+    MulterModule.register({
+      storage: diskStorage({
+        destination: './uploads/profile-images',
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          cb(null, `${uniqueSuffix}${ext}`);
+        },
+      }),
+    }),
   ],
   controllers: [
     MapboxController,
@@ -97,8 +114,8 @@ import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.co
     JobCategoryController,
     UserController,
     NationalityController,
-    LanguagesController, 
-    JobProfileController
+    LanguagesController,
+    JobProfileController,
   ],
   providers: [
     // Services
@@ -114,7 +131,7 @@ import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.co
     UserService,
     NationalityService,
     LanguageService,
-    JobProfileService ,
+    JobProfileService,
 
     // Repositories
     SkillsRepository,
@@ -126,8 +143,8 @@ import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.co
     CitiesRepository,
     NationalityRepository,
     LanguageRepository,
-    UserJobRepository ,
-    VisaTypeRepository
+    UserJobRepository,
+    VisaTypeRepository,
   ],
   exports: [
     UserRepository,
@@ -138,8 +155,8 @@ import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.co
     JobCategoryRepository,
     NationalityRepository,
     LanguageRepository,
-    UserJobRepository ,
-    VisaTypeRepository
+    UserJobRepository,
+    VisaTypeRepository,
   ],
 })
 export class HelpersModule {}

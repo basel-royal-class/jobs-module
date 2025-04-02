@@ -1,7 +1,5 @@
-import { Experience } from 'src/jobs/job_profile/entities/experince.entity';
-import { QualificationsEntity } from 'src/jobs/job_profile/entities/qualification.entity';
-import { ResumeEntity } from 'src/jobs/job_profile/entities/resume.entity';
-import { VisaTypeEntity } from 'src/jobs/job_profile/entities/visa.entity';
+import { Experience } from '../../jobs/job_profile/entities/experince.entity';
+import { VisaTypeEntity } from '../../jobs/job_profile/entities/visa.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -16,9 +14,9 @@ import { CountryEntity } from './countries.entity';
 import { CityEntity } from './cities.entity';
 import { LanguageEntity } from './language.entity';
 import { User } from './user.entity';
-import { SkillsEntity } from './skills.entity';
-import { UserSkill } from 'src/jobs/job_profile/entities/skills/user.skill.entity';
-import { PortfolioEntity } from 'src/jobs/job_profile/entities/portfolios.entity';
+import { UserSkill } from '../../jobs/job_profile/entities/skills/user.skill.entity';
+import { PortfolioEntity } from '../../jobs/job_profile/entities/portfolios.entity';
+import { ReferenceEntity } from '../../jobs/job_profile/entities/references.entity';
 
 @Entity('user_job_profile')
 export class UserJobProfile {
@@ -49,12 +47,10 @@ export class UserJobProfile {
   @Column({ nullable: true })
   summary: string;
 
-  // Change from OneToOne to ManyToOne for country
   @ManyToOne(() => CountryEntity)
   @JoinColumn({ name: 'country_id' })
   country: CountryEntity;
 
-  // Change from OneToOne to ManyToOne for city
   @ManyToOne(() => CityEntity)
   @JoinColumn({ name: 'city_id' })
   city: CityEntity;
@@ -84,4 +80,7 @@ export class UserJobProfile {
 
   @OneToMany(() => PortfolioEntity, (portfolio) => portfolio.userJobProfile)
   portfolios: PortfolioEntity[];
+
+  @OneToMany(() => ReferenceEntity , (reference) => reference.userJobProfile)
+  references: ReferenceEntity[];
 }

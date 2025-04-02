@@ -8,59 +8,7 @@ import { CitiesRepository } from '../repositories/city.repository';
 import { LanguageRepository } from '../repositories/language.repository';
 import { VisaTypeRepository } from 'src/jobs/job_profile/repositories/visa.repository';
 import { UserRepository } from '../repositories/user.repository';
-
-interface FormattedJobProfile {
-  success: boolean;
-  data: {
-    id: number;
-    name: string;
-    summary: string;
-    image: string | null;
-    country: {
-      id: number;
-      name: string;
-    } | null;
-    city: {
-      id: number;
-      name: string;
-    } | null;
-    basic_info: {
-      email: string;
-      phone_number: string;
-      visa_id: {
-        id: number;
-        name: string;
-      } | null;
-      gender: string;
-      nationality: {
-        id: number;
-        name: string;
-      } | null;
-      dob: string;
-      languages: Array<{
-        id: number;
-        value: string;
-      }>;
-    };
-    headline: string;
-    join_type: string;
-    career_level: string;
-    desired_salary: number;
-    total_sections: number;
-    completed_sections: number;
-    remaining_sections: number;
-    completion_percentage: number;
-    sections_status: {
-      qualification: boolean;
-      experience: boolean;
-      skills: boolean;
-      resume: boolean;
-      certificates: boolean;
-      portfolio: boolean;
-      references: boolean;
-    };
-  };
-}
+import { FormattedJobProfile } from 'src/jobs/job_profile/types';
 
 @Injectable()
 export class JobProfileService {
@@ -156,8 +104,20 @@ export class JobProfileService {
     return this.formatJobProfile(profile);
   }
 
-  private formatJobProfile(profile: any): FormattedJobProfile {
-    // Calculate completion percentages
+  async uploadProfileImage(userId: number, imageUrl: string): Promise<FormattedJobProfile> {
+    const profile = await this.userJobRepository.findByUserId(userId);
+    if (!profile) {
+      throw new NotFoundException(`Job profile for user with ID ${userId} not found`);
+    }
+    profile.image = imageUrl;
+    const updatedProfile = await this.userJobRepository.saveProfile(profile);
+
+    return this.formatJobProfile(updatedProfile);
+  }
+
+  
+
+  private formatJobProfile(profile): FormattedJobProfile {
     const sections = [
       'qualification',
       'experience',
@@ -168,13 +128,13 @@ export class JobProfileService {
       'references',
     ];
     const sectionsStatus = {
-      qualification: false, // You'll need to determine these based on your data
+      qualification: false,
       experience: profile.experiences && profile.experiences.length > 0,
       skills: profile.skills && profile.skills.length > 0,
-      resume: false, // Determine based on your data
-      certificates: false, // Determine based on your data
+      resume: false,
+      certificates: false,
       portfolio: profile.portfolios && profile.portfolios.length > 0,
-      references: false, // Determine based on your data
+      references: profile.references && profile.references.length > 0,
     };
 
     const completedSections = Object.values(sectionsStatus).filter(Boolean).length;
@@ -182,7 +142,6 @@ export class JobProfileService {
     const remainingSections = totalSections - completedSections;
     const completionPercentage = Math.round((completedSections / totalSections) * 100);
 
-    // Format the data according to the desired structure
     return {
       success: true,
       data: {
@@ -204,7 +163,7 @@ export class JobProfileService {
           : null,
         basic_info: {
           email: profile.user.email,
-          phone_number: profile.user.phone || '+1 (555) 555-5555', // Placeholder if not available
+          phone_number: profile.user.phone || '+1 (555) 555-5555',
           visa_id: profile.visa
             ? {
                 id: profile.visa.id,
@@ -213,8 +172,8 @@ export class JobProfileService {
             : null,
           gender: profile.gender || '',
           nationality: {
-            id: 0, // This needs to be populated if you have nationality data
-            name: 'Not specified', // This needs to be populated if you have nationality data
+            id: 1,
+            name: 'Morocco',
           },
           dob: profile.dob || '',
           languages: profile.languages
@@ -225,8 +184,8 @@ export class JobProfileService {
             : [],
         },
         headline: profile.headline || '',
-        join_type: this.formatJoinType(profile.join_type),
-        career_level: this.formatCareerLevel(profile.career_level),
+        join_type: profile.join_type,
+        career_level: profile.career_level,
         desired_salary: parseFloat(profile.desired_salary) || 0,
         total_sections: totalSections,
         completed_sections: completedSections,
@@ -235,30 +194,5 @@ export class JobProfileService {
         sections_status: sectionsStatus,
       },
     };
-  }
-
-  private formatJoinType(joinType: string): string {
-    const joinTypeMap = {
-      imm: 'Immediate Joiner',
-      '1m': '1 Month Notice',
-      '2m': '2 Months Notice',
-      '3m': '3 Months Notice',
-      // Add other mappings as needed
-    };
-
-    return joinTypeMap[joinType] || joinType;
-  }
-
-  private formatCareerLevel(careerLevel: string): string {
-    const careerLevelMap = {
-      fresh: 'Fresh Graduate',
-      junior: 'Junior',
-      mid: 'Mid-Level',
-      senior: 'Senior',
-      exec: 'Executive',
-      // Add other mappings as needed
-    };
-
-    return careerLevelMap[careerLevel] || careerLevel;
   }
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UserJobProfile } from '../../../core/entities/user-job-profile.entity';
+import { Column, Entity , ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user_job_references')
 export class ReferenceEntity {
@@ -16,6 +17,9 @@ export class ReferenceEntity {
 
   @Column()
   email: string;
+
+  @ManyToOne(() => UserJobProfile, (userJobProfile) => userJobProfile.references)
+  userJobProfile: UserJobProfile;
 
   @Column({ name: 'created_at' })
   created_at: Date;

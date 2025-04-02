@@ -32,6 +32,7 @@ export class UserJobRepository {
         'portfolios',
         'skills',
         'skills.skils',
+        'references',
       ],
     });
 
@@ -88,6 +89,7 @@ export class UserJobRepository {
         'portfolios',
         'skills',
         'skills.skils',
+        'references',
       ],
     });
 

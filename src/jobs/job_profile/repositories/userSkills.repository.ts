@@ -54,7 +54,7 @@ export class UserSkillsRepository {
       userSkill.userJobProfile = userJobProfile; 
       const savedUserSkill = await this.userSkillRepository.save(userSkill);
 
-      //companies
+
       if (companyIds && companyIds.length) {
         const companies = await this.companiesRepository.findByIds(companyIds);
 
@@ -66,7 +66,7 @@ export class UserSkillsRepository {
         }
       }
 
-      //schools
+
       if (schoolIds && schoolIds.length) {
         const schools = await this.schoolsRepository.findByIds(schoolIds);
 
@@ -160,7 +160,6 @@ export class UserSkillsRepository {
             relations: ['schools'],
           });
 
-          // Return formatted data
           return {
             id: userSkill.id,
             skill_id: {

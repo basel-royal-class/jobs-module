@@ -15,7 +15,6 @@ export class CreatePortfolioDto {
   link: string;
 }
 
-
 export class PortfolioResponseDto {
     id: number;
     user_id: number;

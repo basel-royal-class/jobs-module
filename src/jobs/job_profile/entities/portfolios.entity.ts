@@ -1,4 +1,4 @@
-import { UserJobProfile } from 'src/core/entities/user-job-profile.entity';
+import { UserJobProfile } from '../../../core/entities/user-job-profile.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user_portfolios')

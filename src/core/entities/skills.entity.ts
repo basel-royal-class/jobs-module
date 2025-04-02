@@ -1,4 +1,4 @@
-import { UserSkill } from 'src/jobs/job_profile/entities/skills/user.skill.entity';
+import { UserSkill } from '../../jobs/job_profile/entities/skills/user.skill.entity';
 import {
   Entity,
   Column,

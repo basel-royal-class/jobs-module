@@ -1,4 +1,4 @@
-import { UserSkillCompanies } from 'src/jobs/job_profile/entities/skills/user.company.entity';
+import { UserSkillCompanies } from '../../jobs/job_profile/entities/skills/user.company.entity';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 
 @Entity('companies')

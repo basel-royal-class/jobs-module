@@ -1,7 +1,7 @@
 // school.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { QualificationsEntity } from '../../jobs/job_profile/entities/qualification.entity';
-import { UserSkillSchools } from 'src/jobs/job_profile/entities/skills/user.schools.entity';
+import { UserSkillSchools } from '../../jobs/job_profile/entities/skills/user.schools.entity';
 
 @Entity('schools')
 export class SchoolsEntity {

@@ -1,12 +1,7 @@
-import { CompaniesEntity } from 'src/core/entities/company.entity';
-import { SchoolsEntity } from 'src/core/entities/schools.entity';
-import { SkillsEntity } from 'src/core/entities/skills.entity';
+import { SkillsEntity } from '../../../../core/entities/skills.entity';
 import {
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -14,7 +9,7 @@ import {
 } from 'typeorm';
 import { UserSkillCompanies } from './user.company.entity';
 import { UserSkillSchools } from './user.schools.entity';
-import { UserJobProfile } from 'src/core/entities/user-job-profile.entity';
+import { UserJobProfile } from '../../../../core/entities/user-job-profile.entity';
 
 @Entity('user_skills')
 export class UserSkill {
